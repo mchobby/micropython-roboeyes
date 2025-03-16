@@ -74,6 +74,33 @@ The RoboEyes API is described in the [MicroPython-RoboEyes-API.md](MicroPython-R
 
 # Examples
 
+The best way to learn how to use the RoboEyes is to read the examples below then read the [RoboEye API](MicroPython-RoboEyes-API.md) to understand the responsabilities of various calls.
+
+This [YouTube Video](https://youtu.be/Ma5l_pvi8W8) show the micropython-RoboEyes in action.
+
+This correspond to minimalist implementation of [test_basic.py](examples/test_basic.py) visible here below:
+
+``` python
+from machine import I2C, Pin
+from roboeyes import *
+import ssd1306
+
+i2c = I2C( 1, sda=Pin.board.GP6, scl=Pin.board.GP7 )
+lcd = ssd1306.SSD1306_I2C( 128, 64, i2c, addr=0x3d )
+
+def robo_show( roboeyes ):
+	global lcd
+	lcd.show()
+
+# Plug RoboEyes on any FrameBuffer descendant
+robo = RoboEyes( lcd, 128, 64, frame_rate=100, on_show = robo_show )
+robo.set_auto_blinker( ON, 3, 2) 
+robo.set_idle_mode( ON, 2, 2) 
+
+while True:
+	robo.update()  # update eyes drawings 
+```
+
 The repository comes with examples ported from Flux garage. Examples are mainly tested on 128x64 I2C capable OLED.
 
 * [test_basic.py](examples/test_basic.py) : Simple script that can be used to test each features, one at the time.
