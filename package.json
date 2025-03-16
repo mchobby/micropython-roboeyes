@@ -1,0 +1,6 @@
+{
+  "urls": [
+    ["roboeyes.py", "github:mchobby/micropython-roboeyes/lib/roboeyes.py"]
+  ],
+  "version": "0.1.0"
+}
