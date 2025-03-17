@@ -25,7 +25,7 @@ def __init__(self, fb, width, height, frame_rate=20, on_show=None, bgcolor=BGCOL
 * __bgcolor__ : color used for the background. This value is sent immediately to the FrameBuffer drawing routines.
 * __fgcolor__ : color used for the foreground drawing.
 
-Example:
+Minimal setup example:
 
 ``` python 
 from machine import I2C, Pin
@@ -42,6 +42,9 @@ def robo_show( roboeyes ):
 	lcd.show()
 
 robo = RoboEyes( lcd, 128, 64, frame_rate=100, on_show = robo_show )
+
+while True:
+	robo.update() 
 ```
 
 ## update() method
@@ -101,6 +104,10 @@ Set the width of each eyes.  Default value is 45 pixels.
 def eyes_width( self, leftEye, rightEye)
 ```
 
+Here an example of distinct eye width and eye height.
+
+![Distinct height & width for each eye](docs/_static/interactive-value-01.jpg)
+
 ### eyes_height() method
 
 Set the height of each eye. The default value is 45 pixels.
@@ -121,6 +128,9 @@ Using a 0 pixel radius will show __SQUARE eye__. Having `Height = Width` and `ra
 def eyes_radius( self, leftEye, rightEye)
 ```
 
+Here an example of disctinct radius value.
+
+![Distinct radius for each eye](docs/_static/radius-eyes.jpg)
 
 ### eyes_spacing() method
 

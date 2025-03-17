@@ -136,10 +136,10 @@ class RoboEyes():
 		self.sequences = Sequences( self ) # Collection of sequences
 
 		self.fpsTimer = 0 # For timing the Frames per seconds
-		self._position = None # see position property. Last known value N,S,E,W, ....
+		self._position = 0 # see position property. Last known value N,S,E,W, ....
 		
 		# --[ controlling mood types and expressions ]--
-		self._mood = None # see mood property. Setting it will update tired,angry,happy,
+		self._mood = DEFAULT # see mood property. Setting it will update tired,angry,happy,
 		self.tired = False
 		self.angry = False
 		self.happy = False
@@ -286,26 +286,32 @@ class RoboEyes():
 		self.frameInterval = 1000//fps
 
 
-	def eyes_width( self, leftEye, rightEye):
-		self.eyeLwidthNext = leftEye
-		self.eyeRwidthNext = rightEye
-		self.eyeLwidthDefault = leftEye
-		self.eyeRwidthDefault = rightEye
+	def eyes_width( self, leftEye=None, rightEye=None):
+		if leftEye!=None:
+			self.eyeLwidthNext = leftEye
+			self.eyeLwidthDefault = leftEye
+		if rightEye!=None:
+			self.eyeRwidthNext = rightEye
+			self.eyeRwidthDefault = rightEye
 
 
-	def eyes_height( self, leftEye, rightEye ):
-		self.eyeLheightNext = leftEye
-		self.eyeRheightNext = rightEye
-		self.eyeLheightDefault = leftEye
-		self.eyeRheightDefault = rightEye
+	def eyes_height( self, leftEye=None, rightEye=None ):
+		if leftEye!=None:
+			self.eyeLheightNext = leftEye
+			self.eyeLheightDefault = leftEye
+		if rightEye!=None:
+			self.eyeRheightNext = rightEye
+			self.eyeRheightDefault = rightEye
 
 
 	# Set border radius for left and right eye
-	def eyes_radius( self, leftEye, rightEye):
-		self.eyeLborderRadiusNext = leftEye
-		self.eyeRborderRadiusNext = rightEye
-		self.eyeLborderRadiusDefault = leftEye
-		self.eyeRborderRadiusDefault = rightEye
+	def eyes_radius( self, leftEye=None, rightEye=None):
+		if leftEye!=None:
+			self.eyeLborderRadiusNext = leftEye
+			self.eyeLborderRadiusDefault = leftEye
+		if rightEye!=None:
+			self.eyeRborderRadiusNext = rightEye
+			self.eyeRborderRadiusDefault = rightEye
 
 
 	# Set space between the eyes, can also be negative
@@ -348,10 +354,12 @@ class RoboEyes():
 			self.angry=False
 			self.happy=False
 			self.horiz_flicker(True, 2)
+			self.vert_flicker(False)
 		elif mood == SCARY:
 			self.tired=True
 			self.angry=False
 			self.happy=False
+			self.horiz_flicker(False)
 			self.vert_flicker(True, 2)
 		elif mood == CURIOUS:
 			self.tired=False
@@ -402,6 +410,7 @@ class RoboEyes():
 		else: # Middle center
 			self.eyeLxNext = self.get_screen_constraint_X()//2
 			self.eyeLyNext = self.get_screen_constraint_Y()//2
+		self._position = direction
 
 	# Callable for lambda expression
 	def set_position( self, value ):
